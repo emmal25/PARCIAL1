@@ -1,0 +1,47 @@
+import { Controller, Get, Param, Post } from '@nestjs/common';
+import { AppService } from './app.service';
+import { get } from 'http';
+
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) {}
+
+  @Get('hello')
+  getHello(): string {
+    return this.appService.getHello()
+  }
+ 
+  @Get('/entrada')
+ getEntrada(): string {
+  return 'Hola mundo'
+ }
+
+ @Post('/resta/:restando1/:restando2')
+getResultado(
+  @Param('restando1') restando1: number,
+  @Param('restando2') restando2: number,
+): number {
+  const num1 = -restando1;
+  const num2 = -restando2;
+  return this.appService.restar(restando1,restando2) ;
+}
+
+@Get('saludo/:nombre')
+  getSaludando(@Param('nombre') nombre: string): string {
+    return `HOLA LIC ${nombre}`;
+  }
+}
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class AppService {
+  getHello(): string {
+    return 'Hola mundo!';
+  }
+
+   restar(operador1,operador2): number{
+  let resultado = 0
+  resultado = parseInt(operador1) - parseInt(operador2);
+  return resultado;
+}
+}
